@@ -37,8 +37,8 @@ public class ArticleMapperTest {
 
         Article article = articleMapper.toArticle(articleRequestToConvert);
 
-        assertThat(article.getTitle()).isEqualTo(articleRequestToConvert.getTitle());
-        assertThat(article.getContent()).isEqualTo(articleRequestToConvert.getContent());
-        assertThat(article.getTags()).isEqualTo(articleRequestToConvert.getTags());
+        assertThat(article.getTitle()).isEqualTo(articleRequestToConvert.title());
+        assertThat(article.getContent()).isEqualTo(articleRequestToConvert.content());
+        assertThat(article.getTags()).isEqualTo(articleRequestToConvert.tags());
     }
 }

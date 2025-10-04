@@ -21,9 +21,9 @@ public class ArticleMapper {
 
     public Article toArticle(ArticleRequest articleRequest) {
         return new Article(
-                articleRequest.getTitle(),
-                articleRequest.getContent(),
-                articleRequest.getTags()
+                articleRequest.title(),
+                articleRequest.content(),
+                articleRequest.tags()
         );
     }
 }

@@ -1,12 +1,11 @@
 package com.nn.spring_blog_rest_api.article.controller;
 
+import com.nn.spring_blog_rest_api.article.api.request.ArticleRequest;
 import com.nn.spring_blog_rest_api.article.api.response.ArticleResponse;
 import com.nn.spring_blog_rest_api.article.service.ArticleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +24,13 @@ public class ArticleController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(articleResponses);
+    }
+
+    @PostMapping
+    public ResponseEntity<ArticleResponse> create(@RequestBody ArticleRequest articleRequest) {
+        ArticleResponse articleResponse = articleService.create(articleRequest);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(articleResponse);
     }
 }
