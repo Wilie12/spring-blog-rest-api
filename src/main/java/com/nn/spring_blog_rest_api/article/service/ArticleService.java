@@ -1,0 +1,28 @@
+package com.nn.spring_blog_rest_api.article.service;
+
+import com.nn.spring_blog_rest_api.article.api.response.ArticleResponse;
+import com.nn.spring_blog_rest_api.article.repository.ArticleRepository;
+import com.nn.spring_blog_rest_api.article.support.ArticleMapper;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class ArticleService {
+
+    private final ArticleRepository articleRepository;
+    private final ArticleMapper articleMapper;
+
+    public ArticleService(ArticleRepository articleRepository, ArticleMapper articleMapper) {
+        this.articleRepository = articleRepository;
+        this.articleMapper = articleMapper;
+    }
+
+    public List<ArticleResponse> findAll() {
+        return articleRepository.findAll()
+                .stream()
+                .map(articleMapper::toArticleResponse)
+                .collect(Collectors.toList());
+    }
+}
