@@ -1,5 +1,6 @@
 package com.nn.spring_blog_rest_api.article.support;
 
+import com.nn.spring_blog_rest_api.article.api.request.ArticleRequest;
 import com.nn.spring_blog_rest_api.article.api.response.ArticleResponse;
 import com.nn.spring_blog_rest_api.article.domain.Article;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,14 @@ public class ArticleMapper {
                 article.getTags(),
                 article.getPublishedDate(),
                 article.getUpdatedDate()
+        );
+    }
+
+    public Article toArticle(ArticleRequest articleRequest) {
+        return new Article(
+                articleRequest.title(),
+                articleRequest.content(),
+                articleRequest.tags()
         );
     }
 }

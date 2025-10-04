@@ -6,8 +6,8 @@ import jakarta.persistence.Id;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity(name = "articles")
 public class Article {
@@ -17,7 +17,7 @@ public class Article {
     private int version;
     private String title;
     private String content;
-    private final List<String> tags = new ArrayList<>();
+    private List<String> tags;
     private ZonedDateTime publishedDate;
     private ZonedDateTime updatedDate;
 
@@ -27,12 +27,9 @@ public class Article {
         version = 1;
         this.title = title;
         this.content = content;
+        this.tags = tags;
         publishedDate = ZonedDateTime.now(ZoneId.of("UTC"));
         updatedDate = ZonedDateTime.now(ZoneId.of("UTC"));
-
-        for (String tag : tags) {
-            addTag(tag);
-        }
     }
 
     public long getId() {

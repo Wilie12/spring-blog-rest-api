@@ -1,6 +1,8 @@
 package com.nn.spring_blog_rest_api.article.service;
 
+import com.nn.spring_blog_rest_api.article.api.request.ArticleRequest;
 import com.nn.spring_blog_rest_api.article.api.response.ArticleResponse;
+import com.nn.spring_blog_rest_api.article.domain.Article;
 import com.nn.spring_blog_rest_api.article.repository.ArticleRepository;
 import com.nn.spring_blog_rest_api.article.support.ArticleMapper;
 import org.springframework.stereotype.Service;
@@ -24,5 +26,10 @@ public class ArticleService {
                 .stream()
                 .map(articleMapper::toArticleResponse)
                 .collect(Collectors.toList());
+    }
+
+    public ArticleResponse create(ArticleRequest articleRequest) {
+        Article article = articleRepository.save(articleMapper.toArticle(articleRequest));
+        return articleMapper.toArticleResponse(article);
     }
 }
