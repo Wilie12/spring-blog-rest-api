@@ -1,0 +1,51 @@
+package com.nn.spring_blog_rest_api;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
+import com.nn.spring_blog_rest_api.article.api.response.ArticleResponse;
+import com.nn.spring_blog_rest_api.article.domain.Article;
+import com.nn.spring_blog_rest_api.article.repository.ArticleRepository;
+import com.nn.spring_blog_rest_api.article.service.ArticleService;
+import com.nn.spring_blog_rest_api.article.support.ArticleMapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
+
+@ExtendWith(MockitoExtension.class)
+public class ArticleServiceTest {
+
+    ArticleService articleService;
+    @Mock
+    ArticleRepository articleRepository;
+    @Mock
+    ArticleMapper articleMapper;
+
+    @BeforeEach
+    void setUp() {
+        this.articleService = new ArticleService(articleRepository, articleMapper);
+    }
+
+    @Test
+    void findAllArticlesShouldReturnAll() {
+        // given
+        Article article1 = new Article("services", "text about services", List.of("science", "service"));
+        Article article2 = new Article("repositories", "text about repositories", List.of("science", "repository"));
+        Article article3 = new Article("databases", "text about databases", List.of("test", "database"));
+        when(articleRepository.findAll()).thenReturn(List.of(article1, article2, article3));
+
+        // when
+        List<ArticleResponse> articles = articleService.findAll();
+
+        // then
+        assertThat(articles).containsExactly(
+                articleMapper.toArticleResponse(article1),
+                articleMapper.toArticleResponse(article2),
+                articleMapper.toArticleResponse(article3)
+        );
+    }
+}
