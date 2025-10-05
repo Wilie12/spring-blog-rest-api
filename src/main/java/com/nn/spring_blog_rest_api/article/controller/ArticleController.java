@@ -26,6 +26,14 @@ public class ArticleController {
                 .body(articleResponses);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ArticleResponse> find(@PathVariable Long id) {
+        ArticleResponse articleResponse = articleService.find(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(articleResponse);
+    }
+
     @PostMapping
     public ResponseEntity<ArticleResponse> create(@RequestBody ArticleRequest articleRequest) {
         ArticleResponse articleResponse = articleService.create(articleRequest);

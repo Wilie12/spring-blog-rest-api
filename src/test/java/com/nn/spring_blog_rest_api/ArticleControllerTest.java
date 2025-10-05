@@ -33,6 +33,14 @@ public class ArticleControllerTest {
     }
 
     @Test
+    void findArticleShouldWork() throws Exception {
+        mvc.perform(get("/api/v1/articles/1"))
+                .andExpect(status().isOk());
+
+        verify(articleService).find(1L);
+    }
+
+    @Test
     void createArticleShouldWork() throws Exception {
         mvc.perform(post("/api/v1/articles")
                         .contentType(MediaType.APPLICATION_JSON)
