@@ -67,8 +67,8 @@ public class Article {
         return tags;
     }
 
-    public void addTag(String tag) {
-        this.tags.add(tag);
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 
     public ZonedDateTime getPublishedDate() {
@@ -79,7 +79,7 @@ public class Article {
         return updatedDate;
     }
 
-    public void setUpdatedDate(ZonedDateTime updatedDate) {
+    public void setUpdatedDate() {
         this.updatedDate = ZonedDateTime.now(ZoneId.of("UTC"));
     }
 }

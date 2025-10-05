@@ -1,6 +1,7 @@
 package com.nn.spring_blog_rest_api.article.service;
 
 import com.nn.spring_blog_rest_api.article.api.request.ArticleRequest;
+import com.nn.spring_blog_rest_api.article.api.request.ArticleUpdateRequest;
 import com.nn.spring_blog_rest_api.article.api.response.ArticleResponse;
 import com.nn.spring_blog_rest_api.article.domain.Article;
 import com.nn.spring_blog_rest_api.article.repository.ArticleRepository;
@@ -45,5 +46,13 @@ public class ArticleService {
                 .findById(id)
                 .orElseThrow(ArticleExceptionSupplier.articleNotFound(id));
         articleRepository.deleteById(article.getId());
+    }
+
+    public ArticleResponse update(Long id, ArticleUpdateRequest articleUpdateRequest) {
+        Article article = articleRepository
+                .findById(id)
+                .orElseThrow(ArticleExceptionSupplier.articleNotFound(id));
+        articleRepository.save(articleMapper.toArticle(article, articleUpdateRequest));
+        return articleMapper.toArticleResponse(article);
     }
 }

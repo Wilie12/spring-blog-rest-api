@@ -1,6 +1,7 @@
 package com.nn.spring_blog_rest_api;
 
 import com.nn.spring_blog_rest_api.article.api.request.ArticleRequest;
+import com.nn.spring_blog_rest_api.article.api.request.ArticleUpdateRequest;
 import com.nn.spring_blog_rest_api.article.api.response.ArticleResponse;
 import com.nn.spring_blog_rest_api.article.domain.Article;
 import com.nn.spring_blog_rest_api.article.support.ArticleMapper;
@@ -21,7 +22,7 @@ public class ArticleMapperTest {
     }
 
     @Test
-    void mappingArticleToResponseShouldWork() {
+    void mappingArticleToResponseShouldReturnTheSameData() {
         Article articleToConvert = new Article("title", "content", List.of("tag1", "tag2"));
 
         ArticleResponse articleResponse = articleMapper.toArticleResponse(articleToConvert);
@@ -32,13 +33,27 @@ public class ArticleMapperTest {
     }
 
     @Test
-    void mappingArticleRequestToArticleShouldWork() {
-        ArticleRequest articleRequestToConvert = new ArticleRequest("title", "content", List.of("tag1", "tag2"));
+    void mappingArticleRequestToArticleShouldReturnTheSameData() {
+        ArticleRequest articleRequestToConvert =
+                new ArticleRequest("title", "content", List.of("tag1", "tag2"));
 
         Article article = articleMapper.toArticle(articleRequestToConvert);
 
         assertThat(article.getTitle()).isEqualTo(articleRequestToConvert.title());
         assertThat(article.getContent()).isEqualTo(articleRequestToConvert.content());
         assertThat(article.getTags()).isEqualTo(articleRequestToConvert.tags());
+    }
+
+    @Test
+    void mappingArticleUpdateRequestToArticleShouldReturnTheSameData() {
+        Article articleToUpdate = new Article("title", "content", List.of("tag1", "tag2"));
+        ArticleUpdateRequest articleUpdateRequestToConvert =
+                new ArticleUpdateRequest("updatedTitle", "updatedContent", List.of("tag1", "tag2", "tag3"));
+
+        Article article = articleMapper.toArticle(articleToUpdate, articleUpdateRequestToConvert);
+
+        assertThat(article.getTitle()).isEqualTo(articleUpdateRequestToConvert.title());
+        assertThat(article.getContent()).isEqualTo(articleUpdateRequestToConvert.content());
+        assertThat(article.getTags()).isEqualTo(articleUpdateRequestToConvert.tags());
     }
 }
