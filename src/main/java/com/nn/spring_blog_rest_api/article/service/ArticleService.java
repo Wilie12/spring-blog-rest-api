@@ -29,6 +29,12 @@ public class ArticleService {
                 .collect(Collectors.toList());
     }
 
+    public ArticleResponse find(Long id) {
+        Article article = articleRepository.findById(id)
+                .orElseThrow(ArticleExceptionSupplier.articleNotFound(id));
+        return articleMapper.toArticleResponse(article);
+    }
+
     public ArticleResponse create(ArticleRequest articleRequest) {
         Article article = articleRepository.save(articleMapper.toArticle(articleRequest));
         return articleMapper.toArticleResponse(article);
