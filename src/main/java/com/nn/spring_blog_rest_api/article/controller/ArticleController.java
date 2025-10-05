@@ -33,4 +33,12 @@ public class ArticleController {
                 .status(HttpStatus.CREATED)
                 .body(articleResponse);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        articleService.delete(id);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
+    }
 }

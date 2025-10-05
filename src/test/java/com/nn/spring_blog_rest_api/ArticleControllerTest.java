@@ -49,4 +49,12 @@ public class ArticleControllerTest {
 
         verify(articleService).create(new ArticleRequest("title", "content", List.of("tag1", "tag2")));
     }
+
+    @Test
+    void deleteArticleShouldWork() throws Exception {
+        mvc.perform(delete("/api/v1/articles/1"))
+                .andExpect(status().isNoContent());
+
+        verify(articleService).delete(1L);
+    }
 }
