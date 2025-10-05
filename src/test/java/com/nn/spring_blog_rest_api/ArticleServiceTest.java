@@ -55,6 +55,19 @@ public class ArticleServiceTest {
     }
 
     @Test
+    void findArticleShouldReturnTheSameData() {
+        // given
+        Article articleToBeFound = new Article("title", "content", List.of("tag1", "tag2"));
+        when(articleRepository.findById(any(Long.class))).thenReturn(Optional.of(articleToBeFound));
+
+        // when
+        ArticleResponse foundArticle = articleService.find(articleToBeFound.getId());
+
+        // then
+        assertThat(foundArticle).isEqualTo(articleMapper.toArticleResponse(articleToBeFound));
+    }
+
+    @Test
     void createArticleShouldReturnTheSameData() {
         // given
         Article articleToCreate = new Article("title", "content", List.of("tag1", "tag2"));
