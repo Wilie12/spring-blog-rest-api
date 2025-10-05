@@ -4,6 +4,7 @@ import com.nn.spring_blog_rest_api.article.api.request.ArticleRequest;
 import com.nn.spring_blog_rest_api.article.api.response.ArticleResponse;
 import com.nn.spring_blog_rest_api.article.domain.Article;
 import com.nn.spring_blog_rest_api.article.repository.ArticleRepository;
+import com.nn.spring_blog_rest_api.article.support.ArticleExceptionSupplier;
 import com.nn.spring_blog_rest_api.article.support.ArticleMapper;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +32,12 @@ public class ArticleService {
     public ArticleResponse create(ArticleRequest articleRequest) {
         Article article = articleRepository.save(articleMapper.toArticle(articleRequest));
         return articleMapper.toArticleResponse(article);
+    }
+
+    public void delete(Long id) {
+        Article article = articleRepository
+                .findById(id)
+                .orElseThrow(ArticleExceptionSupplier.articleNotFound(id));
+        articleRepository.deleteById(article.getId());
     }
 }
