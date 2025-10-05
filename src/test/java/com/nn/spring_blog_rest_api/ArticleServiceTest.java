@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import com.nn.spring_blog_rest_api.article.api.request.ArticleRequest;
+import com.nn.spring_blog_rest_api.article.api.request.ArticleUpdateRequest;
 import com.nn.spring_blog_rest_api.article.api.response.ArticleResponse;
 import com.nn.spring_blog_rest_api.article.domain.Article;
 import com.nn.spring_blog_rest_api.article.repository.ArticleRepository;
@@ -95,5 +96,22 @@ public class ArticleServiceTest {
         // then
         verify(articleRepository).findById(articleToDelete.getId());
         verify(articleRepository).deleteById(articleToDelete.getId());
+    }
+
+    @Test
+    void updateArticleShouldReturnUpdatedData() {
+        // given
+        Article articleToUpdate = new Article("title", "content", List.of("tag1", "tag2"));
+        ArticleUpdateRequest articleUpdateRequest =
+                new ArticleUpdateRequest("updatedTitle", "updatedContent", List.of("tag1", "tag2", "tag3"));
+        when(articleRepository.findById(any(Long.class))).thenReturn(Optional.of(articleToUpdate));
+
+        // when
+        ArticleResponse articleResponse = articleService.update(articleToUpdate.getId(), articleUpdateRequest);
+
+        // then
+        assertThat(articleResponse.title()).isEqualTo(articleUpdateRequest.title());
+        assertThat(articleResponse.content()).isEqualTo(articleUpdateRequest.content());
+        assertThat(articleResponse.tags()).isEqualTo(articleUpdateRequest.tags());
     }
 }
