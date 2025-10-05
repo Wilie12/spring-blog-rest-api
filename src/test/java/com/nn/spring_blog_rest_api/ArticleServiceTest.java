@@ -18,6 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class ArticleServiceTest {
@@ -67,5 +68,19 @@ public class ArticleServiceTest {
         assertThat(articleResponse.title()).isEqualTo(articleToCreate.getTitle());
         assertThat(articleResponse.content()).isEqualTo(articleToCreate.getContent());
         assertThat(articleResponse.tags()).isEqualTo(articleToCreate.getTags());
+    }
+
+    @Test
+    void deleteArticleShouldWork() {
+        // given
+        Article articleToDelete = new Article("title", "content", List.of("tag1", "tag2"));
+        when(articleRepository.findById(any(Long.class))).thenReturn(Optional.of(articleToDelete));
+
+        // when
+        articleService.delete(articleToDelete.getId());
+
+        // then
+        verify(articleRepository).findById(articleToDelete.getId());
+        verify(articleRepository).deleteById(articleToDelete.getId());
     }
 }

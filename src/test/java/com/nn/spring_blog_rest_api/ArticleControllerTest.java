@@ -36,14 +36,15 @@ public class ArticleControllerTest {
     void createArticleShouldWork() throws Exception {
         mvc.perform(post("/api/v1/articles")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\n" +
-                                "  \"title\": \"title\",\n" +
-                                "  \"content\": \"content\",\n" +
-                                "  \"tags\": [\n" +
-                                "    \"tag1\",\n" +
-                                "    \"tag2\"\n" +
-                                "  ]\n" +
-                                "}"))
+                        .content("""
+                                {
+                                  "title": "title",
+                                  "content": "content",
+                                  "tags": [
+                                    "tag1",
+                                    "tag2"
+                                  ]
+                                }"""))
                 .andExpect(status().isCreated());
 
         verify(articleService).create(new ArticleRequest("title", "content", List.of("tag1", "tag2")));

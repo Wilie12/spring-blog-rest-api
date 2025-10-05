@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @Entity(name = "articles")
 public class Article {
