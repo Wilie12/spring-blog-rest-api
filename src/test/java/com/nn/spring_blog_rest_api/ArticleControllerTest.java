@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.nn.spring_blog_rest_api.article.api.request.ArticleRequest;
+import com.nn.spring_blog_rest_api.article.api.request.ArticleUpdateRequest;
 import com.nn.spring_blog_rest_api.article.controller.ArticleController;
 import com.nn.spring_blog_rest_api.article.service.ArticleService;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ public class ArticleControllerTest {
     ArticleService articleService;
 
     @Test
-    void findAllArticlesShouldWork() throws Exception{
+    void findAllArticlesShouldWork() throws Exception {
         mvc.perform(get("/api/v1/articles"))
                 .andExpect(status().isOk());
 
@@ -64,5 +65,31 @@ public class ArticleControllerTest {
                 .andExpect(status().isNoContent());
 
         verify(articleService).delete(1L);
+    }
+
+    @Test
+    void updateArticleShouldWork() throws Exception {
+        mvc.perform(put("/api/v1/articles/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "title": "updatedTitle",
+                                  "content": "updatedContent",
+                                  "tags": [
+                                    "tag1",
+                                    "tag2",
+                                    "tag3"
+                                  ]
+                                }"""))
+                .andExpect(status().isOk());
+
+        verify(articleService).update(
+                1L,
+                new ArticleUpdateRequest(
+                        "updatedTitle",
+                        "updatedContent",
+                        List.of("tag1", "tag2", "tag3")
+                )
+        );
     }
 }

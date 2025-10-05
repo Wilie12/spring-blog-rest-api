@@ -1,6 +1,7 @@
 package com.nn.spring_blog_rest_api.article.controller;
 
 import com.nn.spring_blog_rest_api.article.api.request.ArticleRequest;
+import com.nn.spring_blog_rest_api.article.api.request.ArticleUpdateRequest;
 import com.nn.spring_blog_rest_api.article.api.response.ArticleResponse;
 import com.nn.spring_blog_rest_api.article.service.ArticleService;
 import org.springframework.http.HttpStatus;
@@ -48,5 +49,16 @@ public class ArticleController {
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ArticleResponse> update(
+            @PathVariable Long id,
+            @RequestBody ArticleUpdateRequest articleUpdateRequest
+    ) {
+        ArticleResponse articleResponse = articleService.update(id, articleUpdateRequest);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(articleResponse);
     }
 }

@@ -35,5 +35,5 @@ public class ArticleMapper {
         article.updateVersion();
         article.setUpdatedDate();
         return article;
-    };
+    }
 }
